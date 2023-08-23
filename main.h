@@ -2,7 +2,6 @@
 #define MAIN_H
 
 #include <stdio.h>
-<<<<<<< HEAD
 #include <signal.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -139,13 +138,3 @@ char *_strcat(char *dest, const char *src);
 
 int proc_file_commands(char *file_path, int *exe_ret);
 #endif /* MAIN_H */
-=======
-#include <fcntl.h>
-#include <sys/types.h>
-#include <unistd.h>
-#include <dirent.h>
-#include <string.h>
-
-
-#endif
->>>>>>> 36c6a63d9d37cb185de525caefb5d534841629f4
