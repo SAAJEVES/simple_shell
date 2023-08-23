@@ -1,4 +1,4 @@
-#include "main.h"
+#include "shell.h"
 
 char *_itoa(int n);
 int create_error(char **args, int err);

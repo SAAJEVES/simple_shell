@@ -1,4 +1,4 @@
-#include "main.h"
+#include "shell.h"
 
 char *error_1(char **args);
 char *error_2_cd(char **args);

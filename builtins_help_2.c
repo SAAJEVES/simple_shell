@@ -1,4 +1,4 @@
-#include "main.h"
+#include "shell.h"
 
 void help_unsetenv(void);
 void help_env(void);

@@ -1,5 +1,5 @@
-#ifndef MAIN_H
-#define MAIN_H
+#ifndef SHELL_H
+#define SHELL_H
 
 #include <stdio.h>
 #include <signal.h>
@@ -137,4 +137,4 @@ int _strlen(const char *s);
 char *_strcat(char *dest, const char *src);
 
 int proc_file_commands(char *file_path, int *exe_ret);
-#endif /* MAIN_H */
+#endif /* SHELL_H */

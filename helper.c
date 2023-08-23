@@ -1,4 +1,4 @@
-#include "main.h"
+#include "shell.h"
 
 char *get_pid(void);
 char *get_env_value(char *beg, int l);

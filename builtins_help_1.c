@@ -1,4 +1,4 @@
-#include "main.h"
+#include "shell.h"
 
 void help_cd(void);
 void help_exit(void);
