@@ -1,114 +1,85 @@
 #include "shell.h"
 
-char *_itoa(int n);
-int create_error(char **args, int err);
-int num_len(int n);
 /**
- * num_len - Printts the length of a number
- * @n: Number to be measured
+ * _eputs - prints an input string
+ * @str: the string to be printed
  *
- * Return: The length of number
+ * Return: Nothing
  */
-int num_len(int n)
+void _eputs(char *str)
 {
-	unsigned int n1;
-	int l = 1;
+	int i = 0;
 
-	if (n < 0)
+	if (!str)
+		return;
+	while (str[i] != '\0')
 	{
-		l++;
-		n1 = n * -1;
+		_eputchar(str[i]);
+		i++;
 	}
-	else
-	{
-		n1 = n;
-	}
-	while (n1 > 9)
-	{
-		l++;
-		n1 /= 10;
-	}
-
-	return (l);
 }
 
 /**
- * _itoa - Change an integer to a string
- * @n: An integer
+ * _eputchar - writes the character c to stderr
+ * @c: The character to print
  *
- * Return: Converted string
+ * Return: On success 1.
+ * On error, -1 is returned, and errno is set appropriately.
  */
-char *_itoa(int n)
+int _eputchar(char c)
 {
-	char *buffer;
-	int l = num_len(n);
-	unsigned int n1;
+	static int i;
+	static char buf[WRITE_BUF_SIZE];
 
-	buffer = malloc(sizeof(char) * (l + 1));
-	if (!buffer)
-		return (NULL);
-
-	buffer[l] = '\0';
-
-	if (n < 0)
+	if (c == BUF_FLUSH || i >= WRITE_BUF_SIZE)
 	{
-		n1 = n * -1;
-		buffer[0] = '-';
+		write(2, buf, i);
+		i = 0;
 	}
-	else
-	{
-		n1 = n;
-	}
-
-	l--;
-	do {
-		buffer[l] = (n1 % 10) + '0';
-		n1 /= 10;
-		l--;
-	} while (n1 > 0);
-
-	return (buffer);
+	if (c != BUF_FLUSH)
+		buf[i++] = c;
+	return (1);
 }
 
+/**
+ * _putfd - writes the character c to given fd
+ * @c: The character to print
+ * @fd: The filedescriptor to write to
+ *
+ * Return: On success 1.
+ * On error, -1 is returned, and errno is set appropriately.
+ */
+int _putfd(char c, int fd)
+{
+	static int i;
+	static char buf[WRITE_BUF_SIZE];
+
+	if (c == BUF_FLUSH || i >= WRITE_BUF_SIZE)
+	{
+		write(fd, buf, i);
+		i = 0;
+	}
+	if (c != BUF_FLUSH)
+		buf[i++] = c;
+	return (1);
+}
 
 /**
- * create_error -Text an error message to stderr
- * @args: An array
- * @e: Value of error
+ * _putsfd - prints an input string
+ * @str: the string to be printed
+ * @fd: the filedescriptor to write to
  *
- * Return: Value of error
+ * Return: the number of chars put
  */
-int create_error(char **args, int e)
+int _putsfd(char *str, int fd)
 {
-	char *error;
+	int i = 0;
 
-	switch (e)
+	if (!str)
+		return (0);
+	while (*str)
 	{
-	case -1:
-		error = error_env(args);
-		break;
-	case 1:
-		error = error_1(args);
-		break;
-	case 2:
-		if (*(args[0]) == 'e')
-			error = error_2_exit(++args);
-		else if (args[0][0] == ';' || args[0][0] == '&' || args[0][0] == '|')
-			error = error_2_syntax(args);
-		else
-			error = error_2_cd(args);
-		break;
-	case 126:
-		error = error_126(args);
-		break;
-	case 127:
-		error = error_127(args);
-		break;
+		i += _putfd(*str++, fd);
 	}
-	write(STDERR_FILENO, error, _strlen(error));
-
-	if (error)
-		free(error);
-	return (e);
-
+	return (i);
 }
